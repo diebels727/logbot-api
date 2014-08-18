@@ -3,12 +3,20 @@ import (
   "github.com/gorilla/mux"
   "net/http"
   "fmt"
-  "github.com/logbot"
+  "github.com/diebels727/logbot"
 )
 
 func IRCHandler(response http.ResponseWriter,request *http.Request) {
   params := mux.Vars(request)
-  fmt.Println("server: ",params["server"]," channel: ",params["channel"])
+  go func(params map[string]string) {
+    server := params["server"]
+    channel := params["channel"]
+
+    fmt.Println("Launching logbot for: ",server,"/",channel)
+
+    log_bot := logbot.New(server,channel,"6667","redbot","lukewarm")
+    log_bot.RunAndLoop()
+  }(params)
 }
 
 func main() {

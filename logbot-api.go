@@ -4,6 +4,7 @@ import (
   "net/http"
   "fmt"
   "github.com/diebels727/logbot"
+  "strings" 
 )
 
 func IRCHandler(response http.ResponseWriter,request *http.Request) {
@@ -11,6 +12,8 @@ func IRCHandler(response http.ResponseWriter,request *http.Request) {
   go func(params map[string]string) {
     server := params["server"]
     channel := params["channel"]
+
+    server = strings.Replace(server,"-",".",-1)
 
     fmt.Println("Launching logbot for: ",server,"/",channel)
 

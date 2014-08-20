@@ -34,6 +34,8 @@ func IRCHandler(response http.ResponseWriter,request *http.Request) {
 }
 
 func EventsIndex(response http.ResponseWriter,request *http.Request) {
+  response.Header().Set("Content-Type", "application/json")
+
   params := mux.Vars(request)
   db_file := "db.sqlite3"
   db_path := path.Join(params["server"],params["channel"],db_file)
@@ -69,8 +71,7 @@ func EventsIndex(response http.ResponseWriter,request *http.Request) {
     return
   }
   jsonEvent := string(bytes)
-
-  fmt.Println("{\"events\": "+jsonEvent+"}")
+  fmt.Fprint(response,"{\"events\": "+jsonEvent+"}")
 }
 
 func main() {
